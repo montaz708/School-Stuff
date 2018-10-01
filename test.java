@@ -3,61 +3,71 @@ import java.util.*;
 public class test{
 
   public static void main (String [] args){
-    Scanner kb = new Scanner(System.in);
-    LinkedList <LinkedList<String>> masterArr = new LinkedList<LinkedList<String>>();
-    LinkedList<String> temp = new LinkedList<String>();
-    LinkedList<String> theAnswer = new LinkedList<String>();
-    String sum;
-    String carry;
-    String dig;
+    Scanner in = new Scanner(System.in);
+    LinkedList<LinkedList<Integer>> masterArr = new LinkedList<LinkedList<Integer>>();
+    LinkedList<Integer> temp = new LinkedList<Integer>();
+    LinkedList<Integer> theAnswer = new LinkedList<Integer>();
     String input = "0";
+    int digit;
+    int sum;
+    int max = 0;
+    int carry = 0;
 
-    System.out.println("Enter numbers you want the sum of, when you're finished, enter -1: ");
+    System.out.println("Enter the numbers you want the sum of. When you're finished, enter -1");
     while(!(input.equals("-1"))){
-        input = kb.nextLine();
-        if(!(input.equals("-1"))){
-          masterArr.add(createLinkedList(input));
+      input = in.nextLine();
+      if(!(input.equals("-1"))){
+        masterArr.push(createLinkedList(input));
+        if(input.length() > max){
+          max = input.length();
         }
+      }
     }
 
-    while(masterArr.size() != 0){
-      for(int a = 0; a < masterArr.size(); a++){
-        if(masterArr.get(a).peek() == null){
-          masterArr.remove(a);
+    for(int a = 0; a < max; a++){
+      for(int b = 0; b < masterArr.size(); b++){
+        if(masterArr.get(b).peek() == null){
+          temp.push(0);
+          continue;
         }
-        temp.push(masterArr.get(a).pop());
+        temp.push(masterArr.get(b).pop());
       }
-      sum = "0";
-      carry = "0";
+      sum = 0;
       while(temp.peek() != null){
-        dig = temp.pop();
-        if(!(carry.equals("0"))){
-          dig = Integer.toString(Integer.parseInt(dig) + (Integer.parseInt(carry)));
-          carry = "0";
+        digit = temp.pop();
+        if(carry != 0){
+          digit = carry + digit;
+          carry = 0;
         }
-        sum = Integer.toString((Integer.parseInt(sum))+(Integer.parseInt(dig)));
-        if(sum.length() > 1){
-          carry = sum.substring(0,1);
-          sum = sum.substring(1,sum.length());
-        }
-        theAnswer.push(sum);
+        sum = digit + sum;
       }
+      if(a != max){
+        if(Integer.toString(sum).length() > 1){
+          carry = Integer.parseInt(Integer.toString(sum).substring(0,1));
+          sum = Integer.parseInt(Integer.toString(sum).substring(1,Integer.toString(sum).length()));
+        }
+      }
+      theAnswer.push(sum);
     }
-    for(int c = 0; c < theAnswer.size(); c++){
+
+    System.out.println("\n The sum is: ");
+    while(theAnswer.peek() != null){
       System.out.print(theAnswer.pop());
     }
+    System.out.println("");
   }
 
   /*
-  This class takes the user's input and puts it into a LinkedList, with each
+  This class takes the user's input and puts it o a LinkedList, with each
   element of the linkedlist representing a digit of the user's input.
   */
-  public static LinkedList<String> createLinkedList(String input){
-    LinkedList<String> aList = new LinkedList<String>();
-
+  public static LinkedList<Integer> createLinkedList(String input){
+    LinkedList<Integer> aList = new LinkedList<Integer>();
+     int num;
     while(!(input.isEmpty())){
-      aList.push(input.substring(0,1));
-      input = input.substring(1, input.length());
+      num = (input.charAt(0)) - 48;
+      input = input.substring(1,input.length());
+      aList.push(num);
     }
     return aList;
   }
