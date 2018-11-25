@@ -1,20 +1,18 @@
 package assignment3;
 import java.io.PrintWriter;
+import java.util.Hashtable;
 import java.io.File;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Random;
 
 public class InternetUsers{
-
+	public static Hashtable <Integer, String> table = new Hashtable<Integer, String>(250);
 	public static void main(String[] args) throws Exception{
 		
-		String home = System.getProperty("user.home");
-		String path = home + File.separator + "Downloads" + File.separator;
-		Scanner stdIn = new Scanner(new File(path + "CountrySortedAlpha.txt"));
-		PrintWriter out = new PrintWriter(path + "CountryUnsortedAlpha.txt");
+		Scanner stdIn = new Scanner(new File("C:/CountrySortedAlpha.txt"));
+		PrintWriter out = new PrintWriter("C:/CountryUnsortedAlpha.txt");
 		String [][] lineSort = new String [2][201];
-		String [] popString = new String [201];
 		String [] line = new String[201];
 		String temp;
 		String build;
@@ -28,6 +26,7 @@ public class InternetUsers{
 		for(int a = 0; stdIn.hasNextLine(); a++) {
 			line[a] = stdIn.nextLine();
 		}
+		stdIn.close();
 		
 		for(int k = line.length - 1; k >= 0; k--) {
 			where = rand.nextInt(line.length);
@@ -54,15 +53,65 @@ public class InternetUsers{
 			line[where] = "";
 			
 		}
-		/*---------------End Randomize part-------------------*/
-		stdIn.close();
 		out.close();
+		/*--------------End Randomize part--------------------*/
+		
+		
+		
+		
+		
+		
+		/*--------------Begin Sorting-------------------------*/
 		shellSort(lineSort);
 		
 		for(int a = 0; a < lineSort[0].length; a++) {
 			System.out.println(lineSort[0][a] + "\t" + lineSort[1][a]);
 		}
+		/*-------------End Sorting----------------------------*/
 		
+		
+		
+		
+		
+		
+		/*-------------Begin hashing--------------------------*/
+		
+
+		String str;
+		String strFull;
+		
+		for(int a = 0; a < lineSort[0].length; a++) {
+			str = lineSort[0][a].trim();
+			strFull = lineSort[0][a] + " " + lineSort[1][a];
+			char[] chars = str.toCharArray();
+			int hash = hashCode(chars);
+			hash %= 250;
+			table.put(hash, str);
+			System.out.println(strFull + " keyed to " + hash);
+			
+		}
+		
+		
+		/*-------------End hashing----------------------------*/
+		
+		
+		
+		
+		/*-------------Begin query phase----------------------*/
+		Scanner in = new Scanner(System.in);
+		String query = "";
+		
+		while(!(query.equals("-1"))) {
+			System.out.println("Name of country (case sensitive) - type -1 if done: ");
+			query = in.nextLine();
+			if(!(query.equals("-1"))) {
+				getValue(query);
+			}
+		}
+		
+		
+		in.close();
+		/*-------------End query phase------------------------*/
 	}
 	
 	
@@ -82,4 +131,48 @@ public class InternetUsers{
 			}
 		}
 	}
+	
+	public static int hashCode(char[] chars) {
+		int hash = 0;
+		
+		for(int a = 0; a < chars.length; a++) {
+			hash += (int)chars[a];
+		}
+		if(table.get(hash%250) == null) {
+			return hash;
+		}
+		else {
+			do {
+				hash++;
+			}while(table.get(hash%250) != null);
+		}
+		return hash;
+	}
+	
+	
+	
+	public static void getValue(String country) {
+		int hash = 0;
+		char[] chars = country.toCharArray();
+		for(int a = 0; a < chars.length; a++) {
+			hash += (int)chars[a];
+		}
+		
+		try {
+			if(table.get(hash%250).equals(country)) {
+				System.out.println(hash%250 + ": " + table.get(hash%250));
+			}
+			else {
+				do {
+					System.out.println(hash%250 + ": " + table.get(hash%250));
+					hash++;
+				}while(!(table.get(hash%250).equals(country)));
+				System.out.println(hash%250 + ": " + table.get(hash%250));
+			}
+		}
+		catch(NullPointerException e) {
+			System.out.println("Not found in hash table!");
+		}
+	}
+	
 }
