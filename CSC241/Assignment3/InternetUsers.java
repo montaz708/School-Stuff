@@ -1,4 +1,3 @@
-package assignment3;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.io.File;
@@ -36,7 +35,6 @@ public class InternetUsers{
 		
 		
 		
-		
 		Scanner stdIn = new Scanner(new File("C:/CountrySortedAlpha.txt"));
 		PrintWriter out = new PrintWriter("C:/CountryUnsortedAlpha.txt");
 		String [][] lineSort = new String [2][201]; 
@@ -47,7 +45,7 @@ public class InternetUsers{
 		Random rand = new Random();
 		
 		/*--------------Begin Randomize part-------------------*/
-		
+		System.out.println("Begin Randomize \n");
 		int where; 													//Used to store the randomized value generated from rand
 		
 		
@@ -83,6 +81,7 @@ public class InternetUsers{
 			
 		}
 		out.close();
+		System.out.println("End randomize Part \n");
 		/*--------------End Randomize part--------------------*/
 		
 		
@@ -91,6 +90,7 @@ public class InternetUsers{
 		
 		
 		/*--------------Begin Sorting-------------------------*/
+		System.out.println("Begin shell sort \n");
 		shellSort(lineSort); //Call the function shellSort
 		
 		
@@ -98,6 +98,7 @@ public class InternetUsers{
 		for(int a = 0; a < lineSort[0].length; a++) {
 			System.out.println(lineSort[0][a] + "\t" + lineSort[1][a]);
 		}
+		System.out.println("End sorting phase \n");
 		/*-------------End Sorting----------------------------*/
 		
 		
@@ -106,6 +107,7 @@ public class InternetUsers{
 		
 		
 		/*-------------Begin hashing--------------------------*/
+		System.out.println("Begin hashing portion of program \n");
 		String str; //A variable containing just the country name
 		String strFull; //A variable containing the country's name and its associated numerical value
 		
@@ -119,6 +121,7 @@ public class InternetUsers{
 			System.out.println(strFull + " keyed to " + hash);
 			
 		}
+		System.out.println("End hashing portion of program \n");
 		/*-------------End hashing----------------------------*/
 		
 		
