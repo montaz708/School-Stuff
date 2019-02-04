@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
                 exit(1);
             }
             while (fgets(str, MAXCHAR, fptr) != NULL){
-                prtinf("%s", str);
+                printf("%s", str);
             }
             fclose(fptr);
             counter++;
