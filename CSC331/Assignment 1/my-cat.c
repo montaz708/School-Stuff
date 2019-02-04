@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
         int counter = 1;
         FILE *fptr;
         do{
-            if(fptr = fopen(argv[counter], 'r') == NULL){
+            if((fptr = fopen(argv[counter], 'r')) == NULL){
                 printf("my-cat: cannot open file");
                 exit(1);
             }
