@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
             }
             while(fgets(str, MAXCHAR, fptr) != NULL){
                 if(str == search){
-                    printf(str);
+                    printf("%s",str);
                 }
             }
         }while(counter < argc);
