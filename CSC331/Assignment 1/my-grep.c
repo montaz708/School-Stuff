@@ -7,7 +7,7 @@ int main(int argc, char* argv[]){
         printf("my-grep: searchterm [file ...]");
         exit(1);
     if(argc >= 2){
-        char search [] = argv[1];
+        char search[] = argv[1];
         int counter = 2;
         FILE *fptr;
         do{
