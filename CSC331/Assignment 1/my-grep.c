@@ -7,9 +7,10 @@ int main(int argc, char* argv[]){
         printf("my-grep: searchterm [file ...]");
         exit(1);
     if(argc >= 2){
-        char search[] = argv[1];
         int counter = 2;
         FILE *fptr;
+        char* search;
+        strcpy(search, (char*)argv[1]);
         do{
             if((fptr = fopen(argv[counter], "r")) == NULL){
                 printf("my-grep: cannot open file \n");
@@ -20,6 +21,7 @@ int main(int argc, char* argv[]){
                     printf("%s",str);
                 }
             }
+            counter++;
         }while(counter < argc);
     }
 }
