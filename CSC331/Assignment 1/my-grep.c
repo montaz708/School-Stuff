@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #define MAXCHAR 1000
 int main(int argc, char* argv[]){
     char str[MAXCHAR];
