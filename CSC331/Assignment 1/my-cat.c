@@ -9,8 +9,8 @@ int main(int argc, char* argv[]){
         int counter = 1;
         FILE *fptr;
         do{
-            if((fptr = fopen(argv[counter], 'r')) == NULL){
-                printf("my-cat: cannot open file");
+            if((fptr = fopen(argv[counter], "r")) == NULL){
+                printf("my-cat: cannot open file \n");
                 exit(1);
             }
             while (fgets(str, MAXCHAR, fptr) != NULL){
