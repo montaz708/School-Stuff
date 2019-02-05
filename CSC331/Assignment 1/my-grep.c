@@ -13,7 +13,7 @@ int main(int argc, char* argv[]){
         FILE *fptr;
         char* search;
         strcpy(search, (char*)argv[1]);
-        printf(search);
+        printf("%s",search);
         do{
             if((fptr = fopen(argv[counter], "r")) == NULL){
                 printf("my-grep: cannot open file \n");
