@@ -11,7 +11,7 @@ int main(int argc, char* argv[]){
         int counter = 2;
         FILE *fptr;
         do{
-            if(fptr = fopen(argv[counter], "r") == NULL){
+            if((fptr = fopen(argv[counter], "r")) == NULL){
                 printf("my-grep: cannot open file \n");
                 exit(1);
             }
