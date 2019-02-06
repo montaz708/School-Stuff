@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-
+#include <string.h>
 // #define MAXCHAR 1000
 // int main(int argc, char* argv[]){
 //     char str[MAXCHAR];
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
     else if(argc > 2){
         int counter = 2;
         word = (char *)malloc(sizeof(argv[1]));
-        strcpy(*word, argv[1]);
+        strcpy(word, argv[1]);
         
         do{
             fptr = fopen(argv[counter], "r");
