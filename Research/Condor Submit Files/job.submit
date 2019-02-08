@@ -1,0 +1,6 @@
+executable = C:\Users\alexv\AppData\Local\Programs\Python\Python37\python.exe
+arguments = "C:\Users\alexv\School-Stuff\Research\Condor Executables\test.py"
+log = C:\Users\alexv\Desktop\job.log
+output = C:\Users\alexv\Desktop\job.out
+error = C:\Users\alexv\Desktop\job.err
+queue 1
