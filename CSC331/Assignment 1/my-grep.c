@@ -24,15 +24,20 @@ int main(int argc, char* argv[]){
             printf("\n %s", line);
             return 0;
         }
+
+        free(word);
+        free(line);
     }
     else if(argc > 2){
         int counter = 2;
-        if(sizeof(argv[1]) == ""){
-            return 0;
-        }
         word = (char *)calloc(strlen(argv[1]), sizeof(char*));
         strcpy(word, argv[1]);
-        
+        if(word == " "){
+            return 0;
+        }
+        if(word == ""){
+            return 0;
+        }
         do{
             fptr = fopen(argv[counter], "r");
             while((nread = getline(&line, &len, fptr)) != -1){
