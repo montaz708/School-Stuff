@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
         line = (char *)calloc(9999, sizeof(char*));
         scanf("%[^\n]%*c", line);
         if(strstr(line, word) != NULL){
-            printf("\n %s", line);
+            printf("\n %s \n", line);
             return 0;
         }
 
