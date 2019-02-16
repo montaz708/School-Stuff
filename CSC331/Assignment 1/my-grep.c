@@ -18,9 +18,10 @@ int main(int argc, char* argv[]){
         word = (char *)calloc(strlen(argv[1]), sizeof(char*));
         strcpy(word, argv[1]);
         printf("Type a line to search: ");
-        line = getline(&line, &len, 0);
+        line = (char *)calloc(9999, sizeof(char*));
+        scanf("%[^\n]%*c", line);
         if(strstr(line, word) != NULL){
-            printf("%s", line);
+            printf("\n %s", line);
             return 0;
         }
     }
