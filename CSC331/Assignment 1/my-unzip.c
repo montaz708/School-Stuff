@@ -10,7 +10,8 @@ int main(int argc, char *argv[]){
     size_t len = 0;
     ssize_t  nread;
     char *nums[20];
-    int word_count;
+    char temp[20];
+    int word_count, loops;
    char *tok;
 
     if(argc < 2){
@@ -25,9 +26,11 @@ int main(int argc, char *argv[]){
                 for(tok = strtok(line, " "); tok && *tok; tok = strtok(NULL, " ")){
                     for(i = 0; i < strlen(tok); i++){
                         if(isdigit(tok[i])){
-                            nums[word_count++] = tok[i];
+                            nums[word_count++] = (char) tok[i];
                         }
                         else{
+                            strcpy(temp, nums);
+                            loops = atoi(temp);
                             for(int b = 0; b < atoi(nums); b++){
                                 printf("%c", tok[i]);
                             }
