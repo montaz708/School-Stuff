@@ -10,7 +10,6 @@ int main(int argc, char *argv[]){
     size_t len = 0;
     ssize_t  nread;
     char nums[20];
-    char temp[20];
     int word_count, loops;
     char *tok;
 
@@ -35,8 +34,8 @@ int main(int argc, char *argv[]){
                         for(int d = 0; d < loops; d++){
                             printf("%c", tok[i]);
                         }
+                        memset(nums, 0, sizeof nums);
                     }
-                strcpy(nums, "");
                 tok = strtok(NULL, " ");
                 
                 printf(" ");
