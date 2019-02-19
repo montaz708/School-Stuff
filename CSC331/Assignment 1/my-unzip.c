@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
                         else{
                             strcpy(temp, nums);
                             loops = atoi(temp);
-                            for(int b = 0; b < atoi(nums); b++){
+                            for(int b = 0; b < loops; b++){
                                 printf("%c", tok[i]);
                             }
                             word_count = 0;
