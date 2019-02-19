@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
                 for(tok = strtok(line, " "); tok && *tok; tok = strtok(NULL, " ")){
                     for(i = 0; i < strlen(tok); i++){
                         if(isdigit(tok[i])){
+                            printf("I'm here");
                             nums[word_count++] = (char) tok[i];
                         }
                         else{
