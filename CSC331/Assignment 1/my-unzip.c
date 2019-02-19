@@ -8,9 +8,9 @@ int main(int argc, char *argv[]){
     int i;
     char *line = NULL;
     size_t len = 0;
-    ssize_t = nread;
-    char n[15];
-    const char s[1000];
+    ssize_t  nread;
+    int word_count;
+   char *tok;
 
     if(argc < 2){
         printf("my-unzip: file1 [file2 ...] \n");
@@ -20,26 +20,21 @@ int main(int argc, char *argv[]){
     for(a = 1; a < argc; a++){
         fp = fopen(argv[a], "r");
         if(fp != NULL){
-            while( (nread = getline(&line, &len, fp)) != -1){
-                strcpy(s, line);
-                char* token = strtok(s, " ");
-                while(token){
-                    int a, c, count, i;
-                    c = 0;
-                    while(isdigit(token[i])){
-                        n[c] = token[i];
-                        c++;
-                        i++;
+            while( (getline(&line, &len, fp)) != -1){
+                for(tok = strtok(line, " "); tok && *tok; tok = strtok(NULL, " ")){
+                    for(i = 0; i < strlen(tok); i++){
+                        if(isdigit(tok[i])){
+                            word_count++;
+                        }
+                        else{
+                            for(int b = 0; b < word_count; b++){
+                                printf("%c", tok[i]);
+                            }
+                        }
                     }
-                    count = atoi(n);
-                    for(a = 1; a <= count; a++){
-                        printf("%c", token[i]);
-                    }
-                    memset(n, 0, sizeof(n));
                     printf(" ");
-                    token = strtok(NULL, " ");
                 }
-                printf("\n");
+            printf("\n");
             }
         }
         else{
