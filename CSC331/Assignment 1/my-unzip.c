@@ -9,7 +9,7 @@ int main(int argc, char *argv[]){
     char *line = NULL;
     size_t len = 0;
     ssize_t  nread;
-    char *nums[20];
+    char nums[20];
     char temp[20];
     int word_count, loops;
    char *tok;
