@@ -35,9 +35,10 @@ int main(int argc, char *argv[]){
                         for(int d = 0; d < loops; d++){
                             printf("%c", tok[i]);
                         }
+                    memset(nums, 0, strlen(nums));
                     }
                 tok = strtok(NULL, " ");
-                memset(nums, 0, strlen(nums));
+                
                 printf(" ");
                 }
             printf("\n");
