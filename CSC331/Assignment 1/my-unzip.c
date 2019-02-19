@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
     char nums[20];
     char temp[20];
     int word_count, loops;
-   char *tok;
+    char *tok;
 
     if(argc < 2){
         printf("my-unzip: file1 [file2 ...] \n");
@@ -23,24 +23,21 @@ int main(int argc, char *argv[]){
         fp = fopen(argv[a], "r");
         if(fp != NULL){
             while( (getline(&line, &len, fp)) != -1){
-                for(tok = strtok(line, " "); tok && *tok; tok = strtok(NULL, " ")){
+                tok = strtok(line, " ");
+                while(tok){
+                    word_count = 0;
                     for(i = 0; i < strlen(tok); i++){
-                        printf("%s", tok);
-                        if(isdigit(tok[i])){
-                            printf("I'm here");
-                            nums[word_count++] = (char) tok[i];
+                        while(isdigit(tok[i])){
+                            nums[word_count++] = tok[i++];
                         }
-                        else{
-                            strcpy(temp, nums);
-                            loops = atoi(temp);
-                            for(int b = 0; b < loops; b++){
-                                printf("%c", tok[i]);
-                            }
-                            word_count = 0;
-                            strcpy(nums, "");
+                        loops = atoi(nums);
+                        for(int d = 0; d < loops; d++){
+                            printf("%c", tok[i]);
                         }
                     }
-                    printf(" ");
+                tok - strtok(NULL, " ");
+                memset(nums, 0,sizeof(nums));
+                printf(" ");
                 }
             printf("\n");
             }
