@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
                             printf("%c", tok[i]);
                         }
                     }
-                tok - strtok(NULL, " ");
+                tok = strtok(NULL, " ");
                 memset(nums, 0,sizeof(nums));
                 printf(" ");
                 }
