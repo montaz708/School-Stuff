@@ -31,6 +31,7 @@ int main(int argc, char *argv[]){
                             nums[word_count++] = tok[i++];
                         }
                         loops = atoi(nums);
+                        printf("%d", loops);
                         for(int d = 0; d < loops; d++){
                             printf("%c", tok[i]);
                         }
