@@ -16,8 +16,8 @@ int main(int argc, char *argv[]){
         fp = fopen(argv[a], "r");
         if(fp != NULL){
             do{
-                count = fgetc(fp);
-                character = fgetc(fp);
+                fread(&count, 4, 1, fp);
+                fread(&character, 1, 1, fp);
                 if( feof(fp)){
                     break;
                 }

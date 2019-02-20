@@ -25,15 +25,15 @@ int main(int argc, char *argv[]){
 					count++;
 				}
 				else{
-					fputc(count, stdout);
-					fputc(character, stdout);
+					fwrite(&count, 4, 1, stdout);
+					fwrite(&character, 1, 1, stdout);
 					character = new_character;
 					count = 0;
 				}
-			}while(1);
+			}while(1); // Loop for interating over all characters of a file
 		}
 		else{
-			printf("Could not open %s for compressing!", argv[a]);
+			printf("Could not open %s for compressing!", argv[a]); //Handles the case where an invalid file path was passed
 			return(1);
 		}
 		fclose(fp);
