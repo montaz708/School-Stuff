@@ -1,0 +1,6 @@
+executable = /usr/bin/python3.6
+arguments = "/home/alex/GitHub/School-Stuff/Research/CondorExecutables/test.py"
+log = /home/alex/job.log
+output = /home/alex/job.out
+error = /home/alex/job.err
+queue 1
