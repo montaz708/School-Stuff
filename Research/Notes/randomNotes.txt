@@ -1,1 +1,2 @@
 - On Linux, make sure to "chown condor:condor <job.out, job.err, job.log> so that Condor can write to the files. 
+- If the executable is to perform IO operations, have to permission Condor appropriately to do this. Otherwise "permission denied will happen"
