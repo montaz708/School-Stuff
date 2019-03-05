@@ -12,11 +12,7 @@ int main(int argc, char *argv[]){
     while(1){
         printf("grsh> ");
         getline(&cmd, &len, stdin);
-        for(token = strtok_r(cmd, " ", &cmd);
-            token != NULL;
-            token = strtok_r(NULL, " ", &cmd)){
-            printf("%s \n", token);
-        }
+        
     }
 
 
