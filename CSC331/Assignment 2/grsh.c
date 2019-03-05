@@ -13,39 +13,39 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
-bool has_access(char *cmd){
-    char PATH[][10] = {"/bin","/usr/bin"};
+char* has_access(char *cmd){
+    char PATH[][10] = {"/bin/"};
     char *temp;
     for(int i = 0; i < sizeof(PATH)/sizeof(PATH[0]); i++){
         strcpy(temp, PATH[i]);
         strcat(temp, cmd);
         if( (access(temp, X_OK)) == 0 ){
-            return true;
+            return PATH[i];
         }
     }
-    return false;
+    return NULL;
 }
 
 void interactive_mode(){
     char *cmd = NULL;
-    char *token;
+    char *token, *path;
     size_t len = 0;
     size_t count;
-    ssize_t nread;
     
     while(1){
         printf("grsh> ");
         getline(&cmd, &len, stdin);
-        if(strstr(cmd, "exit")) break;
         count = 0;
         while( (token = strtok_r(cmd, " ", &cmd))){
             if(count == 0){
-                if( has_access(token)){
-                //do the thing
+                if( (strstr(token, "exit") != NULL)) exit(0);
+                if( (path = has_access(cmd)) != NULL ){
+                    execv(path, cmd);
                 }
                 else{
-                    printf("Either %s doesn't exist or this program doesn't have permission to access to it.", token);
-                    exit(1);
+                    char error_message[30] = "An error has occurred\n";
+                    write(STDERR_FILENO, error_message, strlen(error_message));
+                    break;
                 }
             }
             token = strtok_r(NULL, cmd);
@@ -57,4 +57,8 @@ void interactive_mode(){
 
 void batch_mode(){
 
+}
+
+void cd(path){
+    
 }
