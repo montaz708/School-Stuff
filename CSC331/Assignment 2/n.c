@@ -3,56 +3,57 @@
 #include <string.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include <wait.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
-char* has_access(char *cmd);
-char path[20] = "/bin/";
+char **PATH;
+void update_path(char *cmd);
 
 int main(int argc, char *argv[]){
-    char *cmd = NULL;
-    char *token, *path, **arguments[10][256];
+    PATH = (char**)malloc(15*sizeof(char*));
+    PATH[0] = (char*)malloc(strlen("/bin/")*sizeof(char));
+    strcpy(PATH[0], "/bin/");
+    char *cmd = NULL, *newline = 0;
+    char *token, *path;
+    char **arguments = (char**)malloc(20*sizeof(char*));
     size_t len = 0;
-    size_t count;
-    pid_t pid;
+    size_t count=0;
+    int num = 0;
     
     while(1){
         printf("grsh> ");
         getline(&cmd, &len, stdin);
-        token = strtok_r(cmd, " ", &cmd);
+        newline = strchr(cmd, '\n');
+        if (newline) *newline = 0;
         if(strstr(cmd, "exit")){
             exit(0);
         }
-        count = 0;
-        strcpy(arguments[count++], &token);
-        while(token != NULL){
-            token = strtok_r(cmd, " \n", &cmd);
-            strcpy(arguments[count++], &token);
+        if( strstr(cmd, "path")){
+            update_path(cmd);
         }
-        strcat(path, arguments[0]);
-        strcpy_s(arguments[count++], NULL);
-        pid = fork();
-        if(pid < 0){
-            printf("There was a problem forking. \n");
-            exit(0);
+        
+        while(PATH[num] != NULL){
+            printf("%s \n", PATH[num]);
+            num++;
         }
-        if(pid == 0){
-            execv(path, arguments);
-        }
+        printf("\n");
+        
     }
     return 0;
 }
 
-char* has_access(char *cmd){
-    char *temp;
-    char *newline = 0;
-    for(int i = 0; i < sizeof(PATH)/sizeof(PATH[0]); i++){
-        strcpy(temp, PATH);
-        newline = strchr(cmd, '\n');
-        if (newline) *newline = 0;
-        strcat(temp, cmd);
-        if( (access(temp, X_OK)) == 0 ){
-            return temp;
-        }
+
+void update_path( char *cmd){
+    char **arguments;
+    char *token;
+    size_t count = 0;
+    
+    arguments = &PATH;
+    strtok_r(cmd, " ", &cmd); //Move the pointer past the "path" command 
+    while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
+        arguments[count] = (char*)malloc(strlen(token)*sizeof(char));
+        strcpy(arguments[count], token);
+        count++;
     }
-    return NULL;
+    return;
 }

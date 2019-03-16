@@ -7,7 +7,7 @@
 void change_directory(char *cmd);
 char* has_access(char *cmd);
 void interactive_mode();
-void update_path(char *new_path);
+void update_path(char *cmd);
 void error();
 char **PATH;
 
@@ -24,19 +24,19 @@ int main(int argc, char* argv[]){
 
 void change_directory(char *cmd){
     char *firstToken, *secondToken, *newline;
-    newline = strchr(cmd);
+    newline = strchr(cmd, '\n');
     if(newline) *newline = 0;
     firstToken = strtok_r(cmd, " ", &cmd);
     secondToken = strtok_r(cmd, " ", &cmd);
     if( strtok_r(cmd, " ", &cmd) != NULL){
         error();
-        return
+        return;
     }
     if( (chdir(secondToken)) != 0 ){
         error();
-        return
+        return;
     }
-    return
+    return;
 }
 
 char* has_access(char *cmd){
@@ -55,10 +55,10 @@ char* has_access(char *cmd){
     return NULL;
 }
 
-void update_path(int num_args, char **new_path){
+void update_path( char *cmd){
     size_t size;
 
-    PATH = (char**)realloc(num_args*sizeof(char*));
+    PATH = (char**)realloc(PATH, num_args*sizeof(char*));
     for(int a = 0; a < num_args; a++){
         PATH[a] = (char*)realloc(PATH[a], sizeof(new_path[a]));
         strcpy(PATH[a], new_path[a]);
@@ -72,11 +72,11 @@ void error(){
 
 void parallel_commands(char *cmd){
     char *token1, *token2;
-    return
+    return;
 }
 
 void execute_command(char *cmd){
-    char *token;
+    char *token, path;
     char **arguments = (char**)malloc(15*sizeof(char*)); //Dimension for 15 elements
     while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
         if( (path = has_access(token)) != NULL){

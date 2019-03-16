@@ -6,8 +6,7 @@
 
 int main(int argc, char* argv[]){
     
-    if(argc < 2){
-        interactive_mode();
+    if(argc < 2){   interactive_mode();
     }
     batch_mode();
     return 0;
@@ -15,8 +14,7 @@ int main(int argc, char* argv[]){
 
 char* has_access(char *cmd){
     char PATH[][10] = {"/bin/"};
-    char *temp, *newline;
-    newline =
+    char *temp;
     for(int i = 0; i < sizeof(PATH)/sizeof(PATH[0]); i++){
         strcpy(temp, PATH[i]);
         strcat(temp, cmd);
@@ -29,7 +27,7 @@ char* has_access(char *cmd){
 
 void interactive_mode(){
     char *cmd = NULL;
-    char *token, *path, *arguments[];
+    char *token, *path;
     size_t len = 0;
     size_t count;
     
