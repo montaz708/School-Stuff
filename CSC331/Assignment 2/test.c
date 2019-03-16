@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 void change_directory(char *cmd);
 char* has_access(char *cmd);
@@ -23,12 +23,20 @@ int main(int argc, char* argv[]){
 }
 
 void change_directory(char *cmd){
-    char *token, cwd[256];
-    strtok_r(cmd, " ", &cmd);
-    token = strtok_r(cmd, " \n", &cmd);
-    if( (chdir(token)) != 0 ){
-        printf("Couldn't change directory: %s \n", token);
+    char *firstToken, *secondToken, *newline;
+    newline = strchr(cmd);
+    if(newline) *newline = 0;
+    firstToken = strtok_r(cmd, " ", &cmd);
+    secondToken = strtok_r(cmd, " ", &cmd);
+    if( strtok_r(cmd, " ", &cmd) != NULL){
+        error();
+        return
     }
+    if( (chdir(secondToken)) != 0 ){
+        error();
+        return
+    }
+    return
 }
 
 char* has_access(char *cmd){
@@ -62,36 +70,47 @@ void error(){
     write(STDERR_FILENO, error_message, strlen(error_message)); 
 }
 
+void parallel_commands(char *cmd){
+    char *token1, *token2;
+    return
+}
+
+void execute_command(char *cmd){
+    char *token;
+    char **arguments = (char**)malloc(15*sizeof(char*)); //Dimension for 15 elements
+    while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
+        if( (path = has_access(token)) != NULL){
+
+        }
+    }
+}
+
 void interactive_mode(){
     char *cmd = NULL;
-    char *token, *path, **arguments;
+    char *token, *newline;
     size_t len = 0;
     size_t count;
     
     while(1){
         printf("grsh> ");
         getline(&cmd, &len, stdin);
+        newline = strchr(cmd, '\n');
+        
+        if(newline) *newline = 0;
         token = strtok_r(cmd, " ", &cmd);
+        
         if(strstr(token, "exit")){
             exit(0);
         }
         if(strstr(token, "cd")){
             change_directory(cmd);
         }
-        if( (path = has_access(token)) != NULL){
-            count = 0;
-            arguments[count] = (char *)calloc(strlen(token) + 1, sizeof(char));
-            strcpy(arguments[count], token);
-            while(token != NULL){
-                token = strtok_r(NULL, " ", &cmd);
-                count++;
-                arguments[count] = (char *)calloc(strlen(token), sizeof(char));
-                strcpy(arguments[count], token);
-            }
-            arguments[++count] = NULL;
-            execv(path, arguments);
+        if(strstr(token, "path")){
+            update_path();
         }
-        free(arguments);
+        if(strstr(token, "&")){
+            parallel_commands(cmd);
+        }
     }
     exit(0);
 }

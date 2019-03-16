@@ -15,7 +15,8 @@ int main(int argc, char* argv[]){
 
 char* has_access(char *cmd){
     char PATH[][10] = {"/bin/"};
-    char *temp;
+    char *temp, *newline;
+    newline =
     for(int i = 0; i < sizeof(PATH)/sizeof(PATH[0]); i++){
         strcpy(temp, PATH[i]);
         strcat(temp, cmd);
@@ -28,7 +29,7 @@ char* has_access(char *cmd){
 
 void interactive_mode(){
     char *cmd = NULL;
-    char *token, *path;
+    char *token, *path, *arguments[];
     size_t len = 0;
     size_t count;
     
