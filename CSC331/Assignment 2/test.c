@@ -56,13 +56,21 @@ char* has_access(char *cmd){
 }
 
 void update_path( char *cmd){
-    size_t size;
+    char **arguments = (char*)malloc(50*sizeof(char*)); //50 elements
+    char *token;
+    size_t count = 0;
 
-    PATH = (char**)realloc(PATH, num_args*sizeof(char*));
-    for(int a = 0; a < num_args; a++){
-        PATH[a] = (char*)realloc(PATH[a], sizeof(new_path[a]));
-        strcpy(PATH[a], new_path[a]);
+    strtok_r(cmd, " ", &cmd); //Move the pointer past the "path" command 
+    while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
+        arguments[count++] = (char*)malloc(strlen(token)*sizeof(char));
     }
+
+    PATH = (char**)realloc(PATH, ++count*sizeof(char*));
+    for(int a = 0; a < count; a++){
+        
+    }
+    free(arguments);
+    return;
 }
 
 void error(){
@@ -76,13 +84,30 @@ void parallel_commands(char *cmd){
 }
 
 void execute_command(char *cmd){
-    char *token, path;
-    char **arguments = (char**)malloc(15*sizeof(char*)); //Dimension for 15 elements
-    while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
-        if( (path = has_access(token)) != NULL){
-
-        }
+    char *token, *path;
+    int count = 0;
+    pid_t pid;
+    int status;
+    char **arguments = (char**)malloc(5*sizeof(char*)); //Dimension for 15 elements
+    token = strtok_r(cmd, " ", &cmd);
+    if( (path = has_access(token)) != NULL){
+        arguments[count] = (char*)malloc(strlen(token)*sizeof(char));
+        strcpy(arguments[count], token); 
+        count++;
     }
+    while( (token = strtok_r(cmd, " ", &cmd)) != NULL){
+        arguments[count] = (char*)malloc(strlen(token)*sizeof(char));
+        strcpy(arguments[count], token);
+        count++;
+    }
+    pid = fork();
+    if(pid == 0){
+        execv(path, arguments);
+    }
+    else{
+        waitpid(pid, &status ,WNOHANG|WUNTRACED);
+    }
+    return;
 }
 
 void interactive_mode(){
@@ -106,7 +131,7 @@ void interactive_mode(){
             change_directory(cmd);
         }
         if(strstr(token, "path")){
-            update_path();
+            update_path(cmd);
         }
         if(strstr(token, "&")){
             parallel_commands(cmd);
