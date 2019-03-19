@@ -230,32 +230,42 @@ void change_directory(char *cmd){
     return;
 }
 
-int parallel_commands(char** path, char *cmd){
-    char *token, *exe;
-    char** arguments;
+int parallel_commands(char** path, char* cmd){
+    int n = 50, count;
+    char **arguments = (char**)malloc(n*sizeof(char*));
+    char *outer_token, *inner_token, *exe;
     int ind;
-    pid_t wait_pid, pid;
 
-    token = strtok(cmd, "&");
-    while(token != NULL){
-        arguments = make_array(token);
-        if( (exe = has_access(path, arguments[0])) != NULL){
-            pid = fork();
-            if(pid == 0){
-                execv(exe, arguments);
+    outer_token = strtok_r(cmd, "&\n", &cmd);
+    while(outer_token != NULL){
+        count = 0;
+        inner_token = strtok_r(outer_token, " \t\a\r\n", &outer_token);
+        while(inner_token != NULL){
+            arguments[count] = (char*)malloc(strlen(inner_token)*sizeof(char));
+            strcpy(arguments[count], inner_token);
+            count++;
+            if(count > n){
+                n = n *2;
+                arguments = realloc(arguments, n*sizeof(char**));
             }
-            else if(pid < 0){ //Failed fork, return and stop processing
-                error();
-                return 1;
+            inner_token = strtok_r(NULL, " \t\a\r\n", &outer_token);
+        }
+        arguments[count] = NULL;
+        exe = (char*)malloc(256*sizeof(char));
+        strcpy(exe, has_access(path, arguments[0]));
+        if(exe != NULL){
+            if(fork() == 0){
+                execv(exe, arguments);
             }
         }
         else{
             return 1;
         }
-        token = strtok(NULL, "&");
+        outer_token = strtok_r(NULL, "&\n", &cmd);
     }
+    
     do{
-        wait_pid = waitpid(-1, &ind, WUNTRACED);
+        waitpid(-1, &ind, WUNTRACED);
     }while( !WIFEXITED(ind) && !WIFSIGNALED(ind));
     return 1;
 }
