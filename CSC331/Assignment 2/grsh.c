@@ -146,6 +146,7 @@ char** update_path(char *cmd){
     path = (char**)malloc(items*sizeof(char*));
 
     while(arguments[other_count] != NULL){
+        strcat(arguments[other_count], "/");
         path[count] = (char*)malloc(strlen(arguments[other_count])*sizeof(char));
         strcpy(path[count], arguments[other_count]);
         count++;
@@ -230,32 +231,44 @@ void change_directory(char *cmd){
     return;
 }
 
-int parallel_commands(char** path, char *cmd){
-    char *token, *exe;
-    char** arguments;
+int parallel_commands(char** path, char* cmd){
+    int n = 50, count;
+    char **arguments = (char**)malloc(n*sizeof(char*));
+    char *outer_token, *inner_token, *exe;
     int ind;
-    pid_t wait_pid, pid;
+    pid_t pid;
 
-    token = strtok(cmd, "&");
-    while(token != NULL){
-        arguments = make_array(token);
-        if( (exe = has_access(path, arguments[0])) != NULL){
+    outer_token = strtok_r(cmd, "&\n", &cmd);
+    while(outer_token != NULL){
+        count = 0;
+        inner_token = strtok_r(outer_token, " \t\a\r\n", &outer_token);
+        while(inner_token != NULL){
+            arguments[count] = (char*)malloc(strlen(inner_token)*sizeof(char));
+            strcpy(arguments[count], inner_token);
+            count++;
+            if(count > n){
+                n = n *2;
+                arguments = realloc(arguments, n*sizeof(char**));
+            }
+            inner_token = strtok_r(NULL, " \t\a\r\n", &outer_token);
+        }
+        arguments[count] = NULL;
+        exe = (char*)malloc(256*sizeof(char));
+        strcpy(exe, has_access(path, arguments[0]));
+        if(exe != NULL){
             pid = fork();
             if(pid == 0){
                 execv(exe, arguments);
-            }
-            else if(pid < 0){ //Failed fork, return and stop processing
-                error();
-                return 1;
             }
         }
         else{
             return 1;
         }
-        token = strtok(NULL, "&");
+        outer_token = strtok_r(NULL, "&\n", &cmd);
     }
+    
     do{
-        wait_pid = waitpid(-1, &ind, WUNTRACED);
+        waitpid(pid, &ind, WUNTRACED);
     }while( !WIFEXITED(ind) && !WIFSIGNALED(ind));
     return 1;
 }
@@ -265,7 +278,7 @@ int execute_to_file(char **path, char *cmd){
     char **arguments;
     pid_t wait_pid, pid;
     int ind;
-    token = strtok(cmd, " >\n");
+    token = strtok(cmd, ">");
     file_path = strtok(NULL, " >\n");
     int fp = open(file_path, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     arguments = make_array(token);
@@ -275,7 +288,7 @@ int execute_to_file(char **path, char *cmd){
             dup2(fp, 1);
             dup2(fp, 2);
             execv(exe, arguments);
-
+            close(fp);
         }
         else if(pid < 0){
             error();
@@ -283,7 +296,7 @@ int execute_to_file(char **path, char *cmd){
         }
         else{
             do{
-                wait_pid = waitpid(-1, &ind, WUNTRACED);
+                wait_pid = waitpid(pid, &ind, WUNTRACED);
             }while( !WIFEXITED(ind) && !WIFSIGNALED(ind));
         }
         return 1;
