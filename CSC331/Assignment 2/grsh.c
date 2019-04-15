@@ -249,6 +249,7 @@ int parallel_commands(char** path, char* cmd){
             if(count > n){
                 n = n *2;
                 arguments = realloc(arguments, n*sizeof(char**));
+
             }
             inner_token = strtok_r(NULL, " \t\a\r\n", &outer_token);
         }
@@ -256,8 +257,7 @@ int parallel_commands(char** path, char* cmd){
         exe = (char*)malloc(256*sizeof(char));
         strcpy(exe, has_access(path, arguments[0]));
         if(exe != NULL){
-            pid = fork();
-            if(pid == 0){
+            if(fork() == 0){
                 execv(exe, arguments);
             }
         }
@@ -269,6 +269,7 @@ int parallel_commands(char** path, char* cmd){
     
     do{
         waitpid(pid, &ind, WUNTRACED);
+
     }while( !WIFEXITED(ind) && !WIFSIGNALED(ind));
     return 1;
 }
