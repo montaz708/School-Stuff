@@ -12,7 +12,7 @@ size_t getFilesize(const char* filename){
 }
 
 int main(int argc, char** argv){
-    size_t = getFilesize(argv[1]);
+    size_t filesize = getFilesize(argv[1]);
     int fd = open(argv[1], O_RDONLY, 0);
     assert (fd != -1);
 
