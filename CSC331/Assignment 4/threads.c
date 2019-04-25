@@ -16,7 +16,7 @@ int main(){
 
     while(i < 3){
         pthread_create(&threads[i], NULL, myThreadFun, NULL);
+        pthread_join(threads[i], NULL);
         i++;
     }
-    pthread_join(threads, NULL);
 }
