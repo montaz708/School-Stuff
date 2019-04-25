@@ -20,6 +20,7 @@ int main(int argc, char** argv){
     assert(mmappedData != MAP_FAILED);
 
     write(1, mmappedData, 5);
+    write(1, mmappedData, 5);
 
     int rc = munmap(mmappedData, filesize);
     assert(rc == 0);
