@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <pthread.h>
+<<<<<<< HEAD
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <fcntrl.h>
@@ -81,4 +82,5 @@ void rle(){
 			return(1);
 		}
 		fclose(fp);
+>>>>>>> 36b198a2cd7268c0f6c6cafd93cd6f20450cc43c
 }
