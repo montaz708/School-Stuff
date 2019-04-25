@@ -17,7 +17,7 @@ int main(int argc, char** argv){
     assert (fd != -1);
 
     void* mmappedData = mmap(NULL, filesize, PRO_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
-    assert(mmappedData !- MAP_FAILED);
+    assert(mmappedData != MAP_FAILED);
 
     write(1, mmappedData, filesize);
 
