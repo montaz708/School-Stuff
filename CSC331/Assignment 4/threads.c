@@ -5,7 +5,7 @@
 
 void *myThreadFun(void *vargp){
     sleep(1);
-    printf('Printing \n');
+    printf("Printing \n");
     return NULL;
 }
 
