@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     void* mmappedData = mmap(NULL, 5, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
-    write(1, mmappedData, 5);
+    write(1, mmappedData, filesize);
 
     int rc = munmap(mmappedData, 5);
     assert(rc == 0);
