@@ -16,12 +16,12 @@ int main(int argc, char** argv){
     int fd = open(argv[1], O_RDONLY, 0);
     assert (fd != -1);
 
-    void* mmappedData = mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 1);
+    void* mmappedData = mmap(NULL, 5, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
-    write(1, mmappedData, filesize);
+    write(1, mmappedData, 5);
 
-    int rc = munmap(mmappedData, filesize);
+    int rc = munmap(mmappedData, 5);
     assert(rc == 0);
     close(fd);
 
