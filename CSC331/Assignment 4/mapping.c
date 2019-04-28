@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <stdio.h>
 
 size_t getFilesize(const char* filename){
     struct stat st;
@@ -20,7 +21,7 @@ int main(int argc, char** argv){
     void* mmappedData = mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
-    printf("%d\n", filesize);
+    printf("%ld\n", filesize);
 
     int rc = munmap(mmappedData, filesize);
     assert(rc == 0);
