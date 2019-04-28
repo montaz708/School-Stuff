@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 size_t getFilesize(const char* filename){
     struct stat st;
