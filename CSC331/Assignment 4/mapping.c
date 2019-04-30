@@ -22,9 +22,7 @@ int main(int argc, char** argv){
     unsigned char* mmappedData = (char *) mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
-    char c;
-    c = mmappedData[0];
-    putchar(c);
+    printf("%s \n", mmappedData[0]);
 
     int rc = munmap(mmappedData, filesize);
     assert(rc == 0);
