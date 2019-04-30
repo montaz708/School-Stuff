@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     int fd = open(argv[1], O_RDONLY, 0);
     assert (fd != -1);
 
-    char* mmappedData = (char *) mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+    unsigned char* mmappedData = (char *) mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
     printf("%s\n", &mmappedData[0]);
