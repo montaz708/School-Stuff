@@ -19,10 +19,10 @@ int main(int argc, char** argv){
     int fd = open(argv[1], O_RDONLY, 0);
     assert (fd != -1);
 
-    void* mmappedData = mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
+    char* mmappedData = (char *) mmap(NULL, filesize, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
     assert(mmappedData != MAP_FAILED);
 
-    printf("%ld\n", filesize);
+    printf("%s\n", mmappedData[0]);
 
     int rc = munmap(mmappedData, filesize);
     assert(rc == 0);
