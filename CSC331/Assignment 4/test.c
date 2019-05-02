@@ -22,7 +22,7 @@ size_t getFilesize(const char* filename){
 
 void rle(char *buff){
 	uint8_t character, new_character;
-	uint_t count = 1;
+	uint8_t count = 1;
 	int pos = 0;
 	character = buff[pos];
 	do{
