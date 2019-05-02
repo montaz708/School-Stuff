@@ -27,8 +27,8 @@ void rle(char *buff){
 	do{
 		pos++;
 		new_character = buff[pos];
-		printf("%c\n", buff[pos]);
 		if(new_character == '\0'){
+			printf("%c \t %d\n", &buff[pos], count);
 			break;
 		}
 		if(character == new_character){
