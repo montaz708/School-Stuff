@@ -18,12 +18,36 @@ size_t getFilesize(const char* filename){
     return st.st_size;
 }
 
+
+void rle(char *buff){
+	uint8_t character, new_character;
+	uint_t count = 1;
+	int pos = 0;
+	character = buff[pos];
+	do{
+		pos++;
+		new_character = buff[pos];
+		if(new_character == '\0'){
+			break;
+		}
+		if(character == new_character){
+			count++;
+		}
+		else{
+			fwrite(&count, 4, 1, stdout);
+			fwrite(&character, 1, 1, stdout);
+			character = new_character;
+			count = 1
+		}
+	}while(1);
+	return;
+}
+
 void *split(){
-	sleep(1);
 	char subbuff[div_result + mod_result + 1];
 	memcpy(subbuff, &contents[offset], div_result);
 	subbuff[div_result + mod_result] = '\0';
-	printf("%s \t %d \n", subbuff, offset);
+	
 	offset = offset + div_result;
 }
 
