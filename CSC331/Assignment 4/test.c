@@ -25,6 +25,7 @@ void rle(char *buff){
 	uint8_t count = 1;
 	int pos = 0;
 	character = buff[pos];
+	printf("%s\n", *buff[pos]);
 	do{
 		pos++;
 		new_character = buff[pos];
