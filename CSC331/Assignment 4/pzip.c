@@ -81,10 +81,9 @@ int main(int argc, char** argv){
 
 	mod_result = total_size % num_threads;
 	div_result = total_size / num_threads;
-	pthread_t *threads = (pthread_t *)malloc((num_threads + 1)*sizeof(pthread_t));
-	for(int a = 0; a < num_threads + 1; a++){
+	pthread_t *threads = (pthread_t *)malloc((num_threads)*sizeof(pthread_t));
+	for(int a = 0; a < num_threads; a++){
 		pthread_create(&threads[a], NULL, split, NULL);
-		a++;
 	}
 	for(int b = 0; b < num_threads; b++){
 		pthread_join(threads[b], NULL);
