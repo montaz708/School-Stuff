@@ -48,7 +48,7 @@ void *split(){
 	char subbuff[div_result + mod_result + 1];
 	memcpy(subbuff, &contents[offset], div_result);
 	subbuff[div_result + mod_result] = '\0';
-	
+	rle(subbuff);
 	offset = offset + div_result;
 }
 
