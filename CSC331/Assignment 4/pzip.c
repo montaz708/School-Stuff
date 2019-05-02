@@ -27,8 +27,7 @@ void rle(char *buff){
 	do{
 		pos++;
 		new_character = buff[pos];
-		if(new_character == '\0'){
-			printf("%c \t %d\n", &buff[pos], count);
+		if(new_character == 0){
 			break;
 		}
 		if(character == new_character){
@@ -50,6 +49,7 @@ void *split(){
 	subbuff[div_result + mod_result] = '\0';
 	rle(subbuff);
 	offset = offset + div_result;
+	return;
 }
 
 int main(int argc, char** argv){
