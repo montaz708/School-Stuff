@@ -40,6 +40,7 @@ void rle(char *buff){
 			count = 1;
 		}
 	}while(1);
+	sleep(2);
 	return;
 }
 
