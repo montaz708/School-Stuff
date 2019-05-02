@@ -49,7 +49,7 @@ void *split(){
 	subbuff[div_result + mod_result] = '\0';
 	rle(subbuff);
 	offset = offset + div_result;
-	return;
+	return *void;
 }
 
 int main(int argc, char** argv){
