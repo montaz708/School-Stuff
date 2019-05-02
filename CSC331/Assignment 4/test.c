@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
+#include <inttypes.h>
 
 char *contents;
 int mod_result;
@@ -37,7 +38,7 @@ void rle(char *buff){
 			fwrite(&count, 4, 1, stdout);
 			fwrite(&character, 1, 1, stdout);
 			character = new_character;
-			count = 1
+			count = 1;
 		}
 	}while(1);
 	return;
