@@ -7,11 +7,13 @@
 #include <string.h>
 #include <pthread.h>
 #include <inttypes.h>
+#include <semaphore.h>
 
 char* contents;
 int mod_result;
 int div_result;
 static int offset = 0;
+sem_t mutex;
 
 size_t getFilesize(const char* filename){
     struct stat st;
@@ -40,7 +42,6 @@ void rle(char *buff){
 			count = 1;
 		}
 	}while(1);
-	sleep(2);
 	return;
 }
 
@@ -49,12 +50,15 @@ void *split(){
 	memcpy(subbuff, &contents[offset], div_result);
 	subbuff[div_result + mod_result] = '\0';
 	rle(subbuff);
+	sem_wait(&mutex);
 	offset = offset + div_result;
+	sem_post(&mutex);
 	void * k = 0;
 	return k;
 }
 
 int main(int argc, char** argv){
+	sem_init(&mutex, 0, 1);
     int total_size = 0;
     int num_threads = atoi(argv[1]);
     char * buffer = (char *)malloc(2000*sizeof(char));
